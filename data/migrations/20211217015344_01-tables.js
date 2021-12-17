@@ -13,7 +13,7 @@ exports.up = function (knex) {
 
       table
         .integer("user_id")
-        .usigned()
+        .unsigned()
         .notNullable()
         .references("user_id")
         .inTable("users");

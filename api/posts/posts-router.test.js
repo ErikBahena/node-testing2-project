@@ -26,6 +26,13 @@ describe("posts router", () => {
     const res = await request(server).get("/api/posts");
     expect(res.body).toMatchSnapshot();
   });
+  test("[GET] api/posts/id returns post by id", async () => {
+    const res = await request(server).get("/api/posts/1");
+
+    const postFromDb = await db("posts").where("post_id", 1).first();
+
+    expect(res.body).toMatchObject(postFromDb);
+  });
 
   test("[POST] creates a new post in the database related to the user_id", async () => {
     await request(server)
@@ -83,6 +90,24 @@ describe("posts router", () => {
       .put("/api/posts/4")
       .send({ post_title: "my car" });
 
+    expect(res.status).toBe(200);
+  });
+  test("[DELETE] deletes post from database", async () => {
+    await request(server).delete("/api/posts/4");
+
+    const deletedPost = await db("posts").where("post_id", 4).first();
+
+    expect(deletedPost).toBeFalsy();
+  });
+  test("[DELETE] returns all posts left on database", async () => {
+    await request(server).delete("/api/posts/4");
+
+    const allPostsOnDb = await db("posts");
+
+    expect(allPostsOnDb).toHaveLength(3);
+  });
+  test("[DELETE] returns status code of 200", async () => {
+    const res = await request(server).delete("/api/posts/4");
     expect(res.status).toBe(200);
   });
 });

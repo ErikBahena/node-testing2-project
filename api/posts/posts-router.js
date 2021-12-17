@@ -6,6 +6,11 @@ router.get("/", (req, res, next) => {
     .then((posts) => res.status(200).json(posts))
     .catch(next);
 });
+router.get("/:id", (req, res, next) => {
+  Posts.getById(req.params.id)
+    .then((post) => res.status(200).json(post))
+    .catch(next);
+});
 
 router.post("/", (req, res, next) => {
   Posts.createNew(req.body)
@@ -20,7 +25,9 @@ router.put("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
-  res.json("delete the post");
+  Posts.remove(req.params.id)
+    .then((allPosts) => res.status(200).json(allPosts))
+    .catch(next);
 });
 
 module.exports = router;

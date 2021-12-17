@@ -1,0 +1,26 @@
+
+users and posts related to those users
+
+Users Table -
+user_id: increments
+username: unique().notNullable()
+email:  unique().notNullable()
+password: notNullable()
+
+Posts Table - 
+post_id: increments
+post_title: string.notNullable()
+picture: string.notNullable().defaultTo(https://source.unsplash.com/random/300×300)
+user_id: foreign key, references user_id, unsigned().notNullable()
+
+Endpoints -
+[GET] all users
+[POST] a new user
+[DELETE ] a user and all posts related to the user;
+[PUT ] update a users information where user_id is the same as id passed into func
+
+
+[GET] all posts
+[POST] a new post
+[DELETE ] a post, not the user
+[PUT ] update a post where post_id is the same as passed into func

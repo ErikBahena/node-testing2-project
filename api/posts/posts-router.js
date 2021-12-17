@@ -1,15 +1,22 @@
 const router = require("express").Router();
+const Posts = require("./posts-model");
 
 router.get("/", (req, res, next) => {
-  res.json("all posts");
+  Posts.getAll()
+    .then((posts) => res.status(200).json(posts))
+    .catch(next);
 });
 
 router.post("/", (req, res, next) => {
-  res.json("create new post in db, return new post");
+  Posts.createNew(req.body)
+    .then((newPost) => res.status(201).json(newPost))
+    .catch(next);
 });
 
 router.put("/:id", (req, res, next) => {
-  res.json("update and return updated post");
+  Posts.update(req.body, req.params.id)
+    .then((updatedPost) => res.status(200).json(updatedPost))
+    .catch(next);
 });
 
 router.delete("/:id", (req, res, next) => {

@@ -10,7 +10,7 @@ server.use("/api/users", usersRouter);
 server.use("/api/posts", postsRouter);
 
 server.use((err, req, res, next) => {
-  req.status(err.status || 500).json({
+  res.status(err.status || 500).json({
     message: err.message,
     stack: err.stack,
   });
